@@ -1,7 +1,7 @@
 version("0.0.2")
 
 dependencies {
-	implementation(rootProject, "net.auoeke:reflect", "org.ow2.asm:asm-tree")
+	implementation(rootProject, "net.auoeke:reflect")
 }
 
 compileJava {
