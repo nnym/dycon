@@ -1,0 +1,37 @@
+plugins {
+	id("java")
+	id("net.auoeke.gronk").version("latest.release")
+}
+
+version("0.0.0")
+
+allprojects {
+	plugins.tap {
+		apply("java")
+		apply("net.auoeke.gronk")
+	}
+
+	group("net.auoeke")
+
+	gronk {
+		uncheck()
+	}
+
+	repositories {
+		mavenCentral()
+	}
+}
+
+dependencies {
+	testAnnotationProcessor(project(":javac"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+
+compileTestJava {
+	outputs.upToDateWhen {false}
+}
+
+test {
+    useJUnitPlatform()
+}
