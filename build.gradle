@@ -5,7 +5,7 @@ plugins {
 	id("net.auoeke.gronk").version("latest.release")
 }
 
-version("0.0.0")
+version("0.0.1")
 
 allprojects {
 	plugins.tap {

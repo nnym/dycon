@@ -1,4 +1,4 @@
-version("0.0.0")
+version("0.0.1")
 
 dependencies {
 	implementation(rootProject, "net.auoeke:reflect", "org.ow2.asm:asm-tree")
