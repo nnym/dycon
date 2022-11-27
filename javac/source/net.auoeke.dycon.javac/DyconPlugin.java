@@ -25,8 +25,6 @@ import net.auoeke.reflect.Modules;
 public class DyconPlugin implements Plugin, TaskListener {
 	private Context context;
 	private Elements elements;
-	private Trees trees;
-	private Symtab symtab;
 	private Messager messager;
 
 	private Symbol.MethodHandleSymbol invokeHandle;
@@ -42,16 +40,15 @@ public class DyconPlugin implements Plugin, TaskListener {
 	@Override public void init(JavacTask task, String... args) {
 		this.context = ((BasicJavacTask) task).getContext();
 		this.elements = task.getElements();
-		this.trees = JavacTrees.instance(task);
-		this.symtab = Symtab.instance(this.context);
+		var symtab = Symtab.instance(this.context);
 		this.messager = JavacProcessingEnvironment.instance(this.context).getMessager();
 		var names = Names.instance(this.context);
 
-		this.invokeHandle = new Symbol.MethodHandleSymbol(this.symtab.enterClass(this.symtab.java_base, names.fromString("java.lang.invoke.ConstantBootstraps")).members().findFirst(
+		this.invokeHandle = new Symbol.MethodHandleSymbol(symtab.enterClass(symtab.java_base, names.fromString("java.lang.invoke.ConstantBootstraps")).members().findFirst(
 			names.fromString("invoke"),
 			symbol -> symbol instanceof Symbol.MethodSymbol invoke
 				&& invoke.params.size() == 5
-				&& invoke.params.get(3).type.tsym == this.symtab.methodHandleType.tsym
+				&& invoke.params.get(3).type.tsym == symtab.methodHandleType.tsym
 		));
 
 		this.net_auoeke_dycon = this.elements.getName("net.auoeke.dycon");
@@ -67,7 +64,6 @@ public class DyconPlugin implements Plugin, TaskListener {
 
 	@Override public void started(TaskEvent event) {
 		if (event.getKind() == TaskEvent.Kind.GENERATE) {
-			var trees = (JavacTrees) this.trees;
 			var cu = (JCTree.JCCompilationUnit) event.getCompilationUnit();
 			var factory = TreeMaker.instance(this.context);
 
@@ -93,11 +89,6 @@ public class DyconPlugin implements Plugin, TaskListener {
 					}
 				}
 			}.visitTopLevel(cu);
-		}
-	}
-
-	@Override public void finished(TaskEvent event) {
-		if (event.getKind() == TaskEvent.Kind.ANALYZE) {
 		}
 	}
 
