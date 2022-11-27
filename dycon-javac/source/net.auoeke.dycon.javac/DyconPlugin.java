@@ -63,7 +63,7 @@ public class DyconPlugin implements Plugin, TaskListener {
 
 			new TreeTranslator() {
 				@Override public void visitApply(JCTree.JCMethodInvocation node) {
-					this.result = node;
+					super.visitApply(node);
 
 					if (node.getMethodSelect() instanceof JCTree.JCFieldAccess field
 						&& field.sym instanceof Symbol.MethodSymbol method
