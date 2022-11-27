@@ -17,6 +17,7 @@ allprojects {
 
 	group("net.auoeke")
 	description("ldc intrinsics inspired by JEP 303")
+	javaVersion(17)
 
 	gronk {
 		uncheck()
