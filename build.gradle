@@ -1,5 +1,7 @@
 plugins {
 	id("java")
+	id("signing")
+	id("maven-publish")
 	id("net.auoeke.gronk").version("latest.release")
 }
 
@@ -8,10 +10,13 @@ version("0.0.0")
 allprojects {
 	plugins.tap {
 		apply("java")
+		apply("signing")
+		apply("maven-publish")
 		apply("net.auoeke.gronk")
 	}
 
 	group("net.auoeke")
+	description("ldc intrinsics inspired by JEP 303")
 
 	gronk {
 		uncheck()
@@ -23,7 +28,7 @@ allprojects {
 }
 
 dependencies {
-	testAnnotationProcessor(project(":javac"))
+	testAnnotationProcessor(project(":dycon-javac"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
@@ -34,4 +39,46 @@ compileTestJava {
 
 test {
     useJUnitPlatform()
+}
+
+configure([this, project(":dycon-javac")]) {
+	java {
+		withJavadocJar()
+	}
+
+	publishing {
+		repositories {
+			mavenLocal()
+
+			maven(findProperty("maven.repository")) {
+				username(findProperty("maven.username"))
+				password(findProperty("maven.password"))
+			}
+		}
+
+		publications.withType(MavenPublication) {
+			pom {
+				url.set("https://github.com/auoeke/dycon")
+
+				licenses {
+					license {
+						url.set("https://github.com/auoeke/dycon/blob/master/LICENSE.md")
+					}
+				}
+
+				developers {
+					developer {
+						id.set("auoeke")
+						email.set("tjmnkrajyej@gmail.com")
+					}
+				}
+
+				scm {
+					connection.set("scm:git:git://github.com/auoeke/dycon.git")
+					developerConnection.set("scm:git:git://github.com/auoeke/dycon.git")
+					url.set("https://github.com/auoeke/dycon/tree/master")
+				}
+			}
+		}
+	}
 }

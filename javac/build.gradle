@@ -1,7 +1,0 @@
-dependencies {
-	implementation(rootProject, "net.auoeke:reflect", "org.ow2.asm:asm-tree")
-}
-
-compileJava {
-	options.compilerArgs += com.sun.source.util.Plugin.module.packages.collectMany {["--add-exports", "jdk.compiler/$it=ALL-UNNAMED"]}
-}

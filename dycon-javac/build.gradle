@@ -1,0 +1,18 @@
+version("0.0.0")
+
+dependencies {
+	implementation(rootProject, "net.auoeke:reflect", "org.ow2.asm:asm-tree")
+}
+
+compileJava {
+	options.tap {
+		final exports = com.sun.source.util.Plugin.module.packages.collect {"jdk.compiler/$it=ALL-UNNAMED" as String}
+		compilerArgs += exports.collectMany {["--add-exports", it]}
+
+		javadoc {
+			options {
+				addMultilineStringsOption("-add-exports").value += exports
+			}
+		}
+	}
+}
