@@ -4,15 +4,6 @@ dependencies {
 	implementation(rootProject, "net.auoeke:reflect")
 }
 
-compileJava {
-	options.tap {
-		final exports = com.sun.source.util.Plugin.module.packages.collect {"jdk.compiler/$it=ALL-UNNAMED" as String}
-		compilerArgs += exports.collectMany {["--add-exports", it]}
-
-		javadoc {
-			options {
-				addMultilineStringsOption("-add-exports").value += exports
-			}
-		}
-	}
+gronk {
+	export(sourceSets.main, com.sun.source.util.Plugin.module.packages.collect {"jdk.compiler/$it" as String})
 }
