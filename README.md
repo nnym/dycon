@@ -18,3 +18,5 @@ static Unsafe lazyUnsafe() {
     assert count == 1 : count;
 }
 ```
+
+"Dycon" is derived from "condy" (abbreviation of `CONSTANT_Dynamic`).
