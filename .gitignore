@@ -1,0 +1,8 @@
+.*
+!/.gitignore
+!/.github
+bin
+build
+out
+run
+hs_err_pid*
