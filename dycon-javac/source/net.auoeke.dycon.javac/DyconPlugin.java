@@ -1,6 +1,5 @@
 package net.auoeke.dycon.javac;
 
-import javax.annotation.processing.Messager;
 import javax.lang.model.element.Name;
 import com.sun.source.util.JavacTask;
 import com.sun.source.util.Plugin;
@@ -9,9 +8,7 @@ import com.sun.source.util.TaskListener;
 import com.sun.tools.javac.api.BasicJavacTask;
 import com.sun.tools.javac.code.Symbol;
 import com.sun.tools.javac.code.Symtab;
-import com.sun.tools.javac.code.Type;
 import com.sun.tools.javac.jvm.PoolConstant;
-import com.sun.tools.javac.processing.JavacProcessingEnvironment;
 import com.sun.tools.javac.tree.JCTree;
 import com.sun.tools.javac.tree.TreeMaker;
 import com.sun.tools.javac.tree.TreeTranslator;
@@ -24,7 +21,6 @@ import net.auoeke.reflect.Modules;
 
 public class DyconPlugin implements Plugin, TaskListener {
 	private Context context;
-	private Messager messager;
 
 	private Symbol.MethodHandleSymbol invokeHandle;
 
@@ -38,7 +34,6 @@ public class DyconPlugin implements Plugin, TaskListener {
 
 	@Override public void init(JavacTask task, String... args) {
 		this.context = ((BasicJavacTask) task).getContext();
-		this.messager = JavacProcessingEnvironment.instance(this.context).getMessager();
 		var symtab = Symtab.instance(this.context);
 		var names = Names.instance(this.context);
 		JavacMessages.instance(this.context).add(l -> Resources.instance);
@@ -79,7 +74,7 @@ public class DyconPlugin implements Plugin, TaskListener {
 					) {
 						var metafactory = (JCTree.JCMethodInvocation) node.getArguments().get(0);
 						var initializer = (Symbol.MethodHandleSymbol) ((Symbol.DynamicMethodSymbol) ((JCTree.JCFieldAccess) metafactory.getMethodSelect()).sym).staticArgs[1];
-						var type = (Type.MethodType) initializer.type;
+						var type = initializer.type.asMethodType();
 
 						if (type.getParameterTypes().size() > 0 || !initializer.isStatic()) {
 							log.report(log.diags.error(null, new DiagnosticSource(cu.sourcefile, log), node.pos(), Resources.capturingOrStaticLambda()));
