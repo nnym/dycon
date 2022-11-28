@@ -1,6 +1,6 @@
-Dycon is a group of 2 projects for Java 17+:
-- dycon: a single class `Dycon` containing a method that can be invoked to trigger dycon-javac
-- dycon-javac: a plugin for the standard Java compiler that replaces calls to `Dycon::ldc` by `ldc` instructions.
+Dycon is a group of 2 interdependent projects:
+- dycon (for Java 11+): a single class `Dycon` containing a method that can be invoked to trigger dycon-javac
+- dycon-javac (for Java 17+): a plugin for the standard Java compiler that replaces calls to `Dycon::ldc` by `ldc` instructions.
 
 Consider the example below.
 ```java
@@ -91,4 +91,3 @@ static Unsafe lazyUnsafe() {
 ```
 
 "Dycon" is derived from "condy" (common abbreviation of `CONSTANT_Dynamic`).
-
