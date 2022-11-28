@@ -58,7 +58,7 @@ call `ldc` will reuse its result.
 
 ## download
 
-Dycon is available from Central.
+[dycon](https://repo1.maven.org/maven2/net/auoeke/dycon/) and [dycon-javac](https://repo1.maven.org/maven2/net/auoeke/dycon-javac/) are available from Central.
 ```groovy
 dependencies {
 	annotationProcessor("net.auoeke:dycon-javac:latest.release")
