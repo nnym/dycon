@@ -11,7 +11,7 @@ public static U doStuff() {
 }
 ```
 Since `expensiveObject` takes a while to initialize, is not always necessary and might be initialized as a side effect
-of access to the implicit class for another reason, its initialization can waste much time. It might also cause class
+of access to the implicit class for another reason, its initialization can waste much time. It might also cause a class
 loading circle. One can work around these problems by using the following patterns.
 ```java
 private static T expensiveObject;
