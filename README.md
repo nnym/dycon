@@ -37,7 +37,8 @@ private static T expensiveObject() {
 	return Holder.expensiveObject;
 }
 ```
-The first is quite verbose and the second produces an extra class; which can become quite bad when used many times.
+The first is quite verbose and the second produces an extra class; which can hurt readability and occupy much space when
+used extensively.
 
 Dycon exploits the constant pool form `CONSTANT_Dynamic` introduced to Java 11 by
 [JEP 309](https://openjdk.org/jeps/309) in order to provide a more elegant solution to these problems.
