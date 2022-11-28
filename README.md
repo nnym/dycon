@@ -39,8 +39,9 @@ private static T expensiveObject() {
 ```
 The first is quite verbose and the second produces an extra class; which can become quite bad when used many times.
 
-Dycon exploits the constant pool form `CONSTANT_Dynamic` introduced to Java 11 by JEP 309 in order to provide a more
-elegant solution to these problems. JEP 303 is a candidate that proposes intrinsics for `ldc` and `invokedynamic`. This
+Dycon exploits the constant pool form `CONSTANT_Dynamic` introduced to Java 11 by
+[JEP 309](https://openjdk.org/jeps/309) in order to provide a more elegant solution to these problems.
+[JEP 303](https://openjdk.org/jeps/303) is a candidate that proposes intrinsics for `ldc` and `invokedynamic`. This
 project provides a simpler interface for `ldc` intrinsics for arbitrary dynamic constants.
 ```java
 import static net.auoeke.dycon.Dycon.ldc;
