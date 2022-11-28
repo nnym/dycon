@@ -53,7 +53,7 @@ private static T expensiveObject() {
 ```
 dycon-javac finds this `ldc` invocation and extracts a handle to the target of the method reference or lambda and
 replaces the call to `ldc` and the generation of the `Supplier` object by an `ldc` instruction with an index to a
-`CONSTANT_Dynamic` constant pool entry that points to a bootstrap method that invokes the method handle. After the first
+`CONSTANT_Dynamic_info` constant pool entry that points to a bootstrap method that invokes the method handle. After the first
 call `ldc` will reuse its result.
 
 ## download
