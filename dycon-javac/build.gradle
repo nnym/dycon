@@ -1,9 +1,43 @@
-version("0.0.3")
+plugins {
+	id("com.github.johnrengelman.shadow")
+}
+
+version("0.0.4")
 
 dependencies {
-	implementation(rootProject, "net.auoeke:reflect")
+	implementation("net.auoeke:reflect")
 }
 
 gronk {
 	export(sourceSets.main, com.sun.source.util.Plugin.module.packages.collect {"jdk.compiler/$it" as String})
+}
+
+shadowJar {
+	archiveAppendix.set(archiveClassifier.get())
+	archiveClassifier.set(null)
+}
+
+components.java {
+	withVariantsFromConfiguration(configurations.shadowRuntimeElements) {
+		skip()
+	}
+}
+
+publishing {
+	publications {
+		main(MavenPublication) {
+			from(components.java)
+		}
+
+		fat(MavenPublication) {
+			shadow.component(it)
+
+			groupId(project.group)
+			artifactId("$project.name-" + shadowJar.archiveAppendix.get())
+			version(project.version)
+
+			artifact(sourcesJar)
+			artifact(javadocJar)
+		}
+	}
 }
