@@ -2,7 +2,7 @@ plugins {
 	id("java")
 	id("signing")
 	id("maven-publish")
-	id("net.auoeke.gronk").version("latest.release")
+	id("net.auoeke.gronk").version("3.+")
 }
 
 version("0.0.2")
@@ -17,7 +17,10 @@ allprojects {
 
 	group("net.auoeke")
 	description("ldc intrinsics inspired by JEP 303")
-	javaVersion(17)
+
+	if (!Boolean.getBoolean("idea.sync.active")) {
+		javaVersion(17)
+	}
 
 	gronk {
 		uncheck()
