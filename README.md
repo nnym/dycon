@@ -56,6 +56,18 @@ replaces the call to `ldc` and the generation of the `Supplier` object by an `ld
 `CONSTANT_Dynamic` constant pool entry that points to a bootstrap method that invokes the method handle. After the first
 call `ldc` will reuse its result.
 
+## download
+
+Dycon is available from Central.
+```groovy
+dependencies {
+	annotationProcessor("net.auoeke:dycon-javac:latest.release")
+	compileOnly("net.auoeke:dycon:latest.release")
+}
+```
+
+## miscellanea
+
 ```java
 static int count;
 
