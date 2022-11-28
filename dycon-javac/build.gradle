@@ -2,7 +2,7 @@ plugins {
 	id("com.github.johnrengelman.shadow")
 }
 
-version("0.0.4")
+version("0.1.0")
 
 dependencies {
 	implementation("net.auoeke:reflect")
@@ -13,8 +13,14 @@ gronk {
 }
 
 shadowJar {
+	assemble.dependsOn(it)
+
 	archiveAppendix.set(archiveClassifier.get())
 	archiveClassifier.set(null)
+
+	relocate("net.auoeke.reflect", "net.auoeke.dycon.reflect")
+	relocate("net.auoeke.result", "net.auoeke.dycon.result")
+	relocate("net.gudenau.lib.unsafe", "net.auoeke.dycon.unsafe")
 }
 
 components.java {
