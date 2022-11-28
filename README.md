@@ -18,7 +18,7 @@ private static T expensiveObject;
 
 private static T expensiveObject() {
 	if (expensiveObject == null) {
-		synchronized (expensiveObject) {
+		synchronized (This.class) {
 			if (expensiveObject == null) {
 				expensiveObject = expensiveInitialization();
 			}
