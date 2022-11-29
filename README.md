@@ -58,9 +58,9 @@ replaces the call to `ldc` and the generation of the `Supplier` object by an `ld
 call the JVM will reuse its result instead of invoking it again.
 
 ```diff
-- invkedynamic LambdaMetafactory::metafactory(MethodHandles.Lookup, String, MethodType, MethodType, MethodHandle, MethodType)CallSite(()Object, This::expensiveInitialization | This::expensiveObject$lambda$0, ()Object)
+- invkedynamic LambdaMetafactory::metafactory(MethodHandles.Lookup, String, MethodType, MethodType, MethodHandle, MethodType)CallSite(()Object, This::expensiveInitialization | This::lambda$expensiveObject$0, ()T)
 - invokestatic Dycon::ldc(Supplier)Object
-+ ldc ConstantBootstraps::invoke(MethodHandles.Lookup, String, Class, MethodHandle, Object...)Object(This::expensiveInitialization | This::expensiveObject$lambda$0)
++ ldc ConstantBootstraps::invoke(MethodHandles.Lookup, String, Class, MethodHandle, Object...)Object(This::expensiveInitialization | This::lambda$expensiveObject$0)
 ```
 
 ## download
