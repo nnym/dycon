@@ -57,6 +57,12 @@ replaces the call to `ldc` and the generation of the `Supplier` object by an `ld
 `CONSTANT_Dynamic_info` constant pool entry that points to a bootstrap method that invokes the method handle. After the first
 call the JVM will reuse its result instead of invoking it again.
 
+```diff
+- invkedynamic LambdaMetafactory::metafactory(MethodHandles.Lookup, String, MethodType, MethodType, MethodHandle, MethodType)(()Object, This::expensiveInitialization | This::expensiveObject$lambda$0, ()Object)
+- invokestatic Dycon.ldc(Supplier)
++ ldc ConstantBootstraps::invoke(MethodHandles.Lookup, String, Class, MethodHandle, Object...)(This::expensiveInitialization | This::expensiveObject$lambda$0)
+```
+
 ## download
 
 [dycon](https://repo1.maven.org/maven2/net/auoeke/dycon/) and [dycon-javac](https://repo1.maven.org/maven2/net/auoeke/dycon-javac/) are available from Central.
