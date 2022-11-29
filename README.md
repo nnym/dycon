@@ -4,19 +4,19 @@ Dycon is a group of 2 interdependent projects:
 
 Consider the example below.
 ```java
-private static final T expensiveObject = expensiveInitialization();
+private static final Thing expensiveObject = expensiveInitialization();
 
-public static U doStuff() {
-	return expensiveObject.getU();
+public static Stuff doStuff() {
+	return expensiveObject.getStuff();
 }
 ```
 Since `expensiveObject` takes a while to initialize, is not always necessary and might be initialized as a side effect
 of access to the implicit class for another reason, its initialization can waste much time. It might also cause a class
 loading circle. One can work around these problems by using the following patterns.
 ```java
-private static T expensiveObject;
+private static volatile Thing expensiveObject;
 
-private static T expensiveObject() {
+private static Thing expensiveObject() {
 	if (expensiveObject == null) {
 		synchronized (This.class) {
 			if (expensiveObject == null) {
@@ -29,11 +29,11 @@ private static T expensiveObject() {
 }
 ```
 ```java
-private static T expensiveObject() {
-	class Holder {
-		static final T expensiveObject = expensiveInitialization();
-	}
+private static class Holder {
+	static final Thing expensiveObject = expensiveInitialization();
+}
 
+private static Thing expensiveObject() {
 	return Holder.expensiveObject;
 }
 ```
@@ -47,7 +47,7 @@ project provides a simpler interface for `ldc` intrinsics for arbitrary dynamic 
 ```java
 import static net.auoeke.dycon.Dycon.ldc;
 ...
-private static T expensiveObject() {
+private static Thing expensiveObject() {
 	return ldc(This::expensiveInitialization);
 	// or return ldc(() -> expensiveInitialization());
 }
@@ -58,7 +58,7 @@ replaces the call to `ldc` and the generation of the `Supplier` object by an `ld
 call the JVM will reuse its result instead of invoking it again.
 
 ```diff
-- invkedynamic LambdaMetafactory::metafactory(MethodHandles.Lookup, String, MethodType, MethodType, MethodHandle, MethodType)CallSite(()Object, This::expensiveInitialization | This::lambda$expensiveObject$0, ()T)
+- invkedynamic LambdaMetafactory::metafactory(MethodHandles.Lookup, String, MethodType, MethodType, MethodHandle, MethodType)CallSite(()Object, This::expensiveInitialization | This::lambda$expensiveObject$0, ()Thing)
 - invokestatic Dycon::ldc(Supplier)Object
 + ldc ConstantBootstraps::invoke(MethodHandles.Lookup, String, Class, MethodHandle, Object...)Object(This::expensiveInitialization | This::lambda$expensiveObject$0)
 ```
